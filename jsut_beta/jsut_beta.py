@@ -44,6 +44,7 @@ class JsutBeta(tfds.core.GeneratorBasedBuilder):
     # download and extract URLs
 
     # data_path is a pathlib-like `Path('<manual_dir>/data.zip')`
+    raise Exception(dl_manager.manual_dir)
     try:
       print(dl_manager.manual_dir)
     except:
