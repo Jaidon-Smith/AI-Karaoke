@@ -1,6 +1,8 @@
 """jsut_beta dataset."""
 
 import tensorflow_datasets as tfds
+import os
+import tensorflow as tf
 
 # TODO(jsut_beta): Markdown description  that will appear on the catalog page.
 _DESCRIPTION = """
@@ -21,19 +23,18 @@ class JsutBeta(tfds.core.GeneratorBasedBuilder):
 
   def _info(self) -> tfds.core.DatasetInfo:
     """Returns the dataset metadata."""
-    # TODO(jsut_beta): Specifies the tfds.core.DatasetInfo object
     return tfds.core.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
-            # These are the features of your dataset like images, labels ...
+            "id": tf.string,
+            "speech": tfds.features.Audio(sample_rate=48000),
+            "text": tfds.features.Text(),
         }),
-        # If there's a common (input, target) tuple from the
-        # features, specify them here. They'll be used if
-        # `as_supervised=True` in `builder.as_dataset`.
-        supervised_keys=None,  # e.g. ('image', 'label')
+        supervised_keys=("text_normalized", "speech"),
         homepage='https://dataset-homepage/',
         citation=_CITATION,
+        metadata=tfds.core.MetadataDict(sample_rate=48000),
     )
 
   def _split_generators(self, dl_manager: tfds.download.DownloadManager):
@@ -41,15 +42,32 @@ class JsutBeta(tfds.core.GeneratorBasedBuilder):
     # TODO(jsut_beta): Downloads the data and defines the splits
     # dl_manager is a tfds.download.DownloadManager that can be used to
     # download and extract URLs
+
+    # data_path is a pathlib-like `Path('<manual_dir>/data.zip')`
+    archive_path = dl_manager.manual_dir / 'jsut.zip'
+    # Extract the manually downloaded `data.zip`
+    extracted_path = dl_manager.extract(archive_path)
     return [
         tfds.core.SplitGenerator(
             name=tfds.Split.TRAIN,
             # These kwargs will be passed to _generate_examples
-            gen_kwargs={},
+            gen_kwargs={"directory": extracted_path},
         ),
     ]
 
-  def _generate_examples(self):
+  def _generate_examples(self, directory):
     """Yields examples."""
     # TODO(jsut_beta): Yields (key, example) tuples from the dataset
-    yield 'key', {}
+    metadata_path = os.path.join(directory, 'basic5000', 'transcript_utf8.txt')
+    with tf.io.gfile.GFile(metadata_path) as f:
+      for line in f:
+          line = line.strip()
+          key, transcript = line.split(":")
+          wav_path = os.path.join(directory, "basic5000", "wavs",
+                                    "%s.wav" % key)
+          example = {
+          "id": key,
+          "speech": wav_path,
+          "text": transcript,
+          }
+          yield key, example
