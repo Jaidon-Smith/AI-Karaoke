@@ -20,6 +20,10 @@ class JsutBeta(tfds.core.GeneratorBasedBuilder):
   RELEASE_NOTES = {
       '1.0.0': 'Initial release.',
   }
+  MANUAL_DOWNLOAD_INSTRUCTIONS = """
+  Place the `jsut_ver1.1.zip`
+  file in the `manual_dir/`.
+  """
 
   def _info(self) -> tfds.core.DatasetInfo:
     """Returns the dataset metadata."""
