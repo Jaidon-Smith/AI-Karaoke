@@ -50,12 +50,12 @@ class JsutBeta(tfds.core.GeneratorBasedBuilder):
     # data_path is a pathlib-like `Path('<manual_dir>/data.zip')`
 
     #raise Exception(dl_manager.manual_dir)
-    #try:
-    #  print(dl_manager.manual_dir)
-    #except:
-    #  raise Exception("manual dir not accessible")
+    try:
+      print(dl_manager.manual_dir)
+    except:
+      raise Exception("manual dir not accessible")
     #archive_path = dl_manager.manual_dir / 'jsut_ver1.1.zip'
-    archive_path = 'hello/jsut_ver1.1.zip'
+    archive_path = 'hello2/jsut_ver1.1.zip'
 
     # Extract the manually downloaded `data.zip`
     extracted_path = dl_manager.extract(archive_path)
