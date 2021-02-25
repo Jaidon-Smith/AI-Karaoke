@@ -63,7 +63,7 @@ class JsutBeta(tfds.core.GeneratorBasedBuilder):
         tfds.core.SplitGenerator(
             name=tfds.Split.TRAIN,
             # These kwargs will be passed to _generate_examples
-            gen_kwargs={"directory": extracted_path+'jsut_ver1.1/'},
+            gen_kwargs={"directory": extracted_path+'/jsut_ver1.1/'},
         ),
     ]
 
