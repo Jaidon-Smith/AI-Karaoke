@@ -75,7 +75,7 @@ class JsutBeta(tfds.core.GeneratorBasedBuilder):
       for line in f:
           line = line.strip()
           key, transcript = line.split(":")
-          wav_path = os.path.join(directory, "basic5000", "wavs",
+          wav_path = os.path.join(directory, "basic5000", "wav",
                                     "%s.wav" % key)
           example = {
           "id": key,
