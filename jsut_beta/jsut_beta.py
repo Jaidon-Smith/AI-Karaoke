@@ -51,11 +51,11 @@ class JsutBeta(tfds.core.GeneratorBasedBuilder):
 
     #raise Exception(dl_manager.manual_dir)
     try:
-      print(dl_manager.manual_dir)
+      print("The manual directory is: ", dl_manager.manual_dir)
     except:
-      raise Exception("manual dir not accessible")
-    #archive_path = dl_manager.manual_dir / 'jsut_ver1.1.zip'
-    archive_path = 'hello2/jsut_ver1.1.zip'
+      raise Exception("You have not defined the manual directoy where the .zip is located")
+    archive_path = dl_manager.manual_dir / 'jsut_ver1.1.zip'
+    #archive_path = 'hello2/jsut_ver1.1.zip'
 
     # Extract the manually downloaded `data.zip`
     extracted_path = dl_manager.extract(archive_path)
